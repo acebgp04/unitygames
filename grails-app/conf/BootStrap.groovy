@@ -9,9 +9,11 @@ class BootStrap {
 
         org.unity.security.UserRole.create testUser, adminRole, true
 
-        //assert SecAppUser.count() == 1
-        //assert SecAppRole.count() == 2
-        //assert SecAppUserSecAppRole.count() == 1
+        Import importer = new Import("/Users/ace/Documents/Workbook3.xls")
+        def booksMapList = importer.getBooks();
+        booksMapList.each { Map bookParams ->
+            println(bookParams)
+        }
     }
     def destroy = {
     }

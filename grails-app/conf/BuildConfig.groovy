@@ -68,6 +68,7 @@ grails.project.dependency.resolution = {
         runtime ":resources:1.2.8"
         compile ":kickstart-with-bootstrap:1.1.0"
         compile ":spring-security-core:1.2.7.3"  // <-- Added
+        compile ":joda-time:1.5"
         compile ":excel-import:1.0.0"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"
