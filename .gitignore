@@ -35,3 +35,11 @@
 /target
 
 
+
+.idea
+target
+unitygamesV2-grailsPlugins.iml
+.classpath
+.project
+unitygamesV2.iml
+lib
