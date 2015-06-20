@@ -9,11 +9,12 @@ class Category {
     static belongsTo = [sport: Sport]
 
     String toString() {
-        (sport ? sport.name + " : ${CFO} - " + name : name)
+        name
     }
     static constraints = {
         name()
-        venue()
-        dateOfEvent()
+        venue(nullable: true)
+        dateOfEvent(nullable: true)
+        sport(nullable: true)
     }
 }

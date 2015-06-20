@@ -1,10 +1,8 @@
 package org.unity
 
 class Player {
-
-	String firstName
-	String middleName
-	String lastName
+	String controlNo
+	String fullName
 	String gender
 	String emailAddress
 	Date birthDate
@@ -16,6 +14,7 @@ class Player {
 	String height
 	String highestEducAttainment
 	String picture
+    String remarks
 
 	String nameOfFather
 	String fatherContactNo
@@ -28,8 +27,7 @@ class Player {
 	String district
 	Date baptismDate
 	String country
-	static belongsTo = [team: Team, sport:Sport]
-	static hasMany = [categories : Category]
+	static belongsTo = [team: Team, sport:Sport,category : Category]
 
 	String contactAbroadName
 	String contactAbroadRel
@@ -69,37 +67,38 @@ class Player {
 	String hotelRoomNo
 
 	String toString() {
-		"${firstName} ${middleName} ${lastName}"
+		"${fullName}"
 	}
 	static constraints = {
-		firstName(nullable: false)
-		middleName(nullable: false)
-		lastName(nullable: false)
-		gender(nullable: false)
-		emailAddress(nullable: false)
-		birthDate(nullable: false)
-		nationality(nullable: false)
-		contactNo(nullable: false)
-		bloodType(nullable: false)
-		languageDialect(nullable: false)
-		weight(nullable: false)
-		height(nullable: false)
-		highestEducAttainment(nullable: false)
+		controlNo(nullable:false)
+		fullName(nullable: true)
+		gender(nullable: true)
+		emailAddress(nullable: true)
+		birthDate(nullable: true)
+		nationality(nullable: true)
+		contactNo(nullable: true)
+		bloodType(nullable: true)
+		languageDialect(nullable: true)
+		weight(nullable: true)
+		height(nullable: true)
+		highestEducAttainment(nullable: true)
 		picture(blank: true, nullable: true)
+        remarks(nullable: true)
 
 		nameOfFather(nullable: true)
 		fatherContactNo(nullable: true)
 		nameOfMother(nullable: true)
 		motherContactNo(nullable: true)
 
-		kapisanan(nullable: false)
-		purokGrupo(nullable: false)
-		lokal(nullable: false)
-		district(nullable: false)
-		baptismDate(nullable: false)
-		country(nullable: false)
-		team(nullable: false)
-//		sports(nullable: true)
+		kapisanan(nullable: true)
+		purokGrupo(nullable: true)
+		lokal(nullable: true)
+		district(nullable: true)
+		baptismDate(nullable: true)
+		country(nullable: true)
+		team(nullable: true)
+		sport(nullable: true)
+        category(nullable: true)
 
 		contactAbroadName(nullable: true)
 		contactAbroadRel(nullable: true)
@@ -110,9 +109,9 @@ class Player {
 		contactLocalemailAddress(nullable: true)
 		contactLocalPhone(nullable: true)
 
-		guardian(nullable: false)
-		guardianRel(nullable: false)
-		guardianContactNo(nullable: false)
+		guardian(nullable: true)
+		guardianRel(nullable: true)
+		guardianContactNo(nullable: true)
 		waiver(nullable: true)
 
 		arrivalAirline(nullable: true)

@@ -11,5 +11,7 @@ class Sport {
     }
 
     static constraints = {
+        name(nullable: false, unique: true)
+        categories(nullable: true)
     }
 }

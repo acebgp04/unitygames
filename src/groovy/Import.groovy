@@ -14,12 +14,19 @@ class Import extends AbstractExcelImporter {
     ]
 
     static Map CONFIG_BOOK_COLUMN_MAP = [
-            sheet:'Sheet1',
-            startRow: 2,
+            sheet:'Masterlists',
+            startRow: 10,
             columnMap:  [
-                    'A':'Author',
-                    'B':'Book',
-                    'C':'numSold',
+                    'A':'controlNo',
+                    'B':'sport',
+                    'C':'category',
+                    'D':'team',
+                    'E':'fullName',
+                    'F':'kapisanan',
+                    'G':'lokal',
+                    'H':'distrito',
+                    'I':'gender',
+                    'J':'remarks'
             ]
     ]
 

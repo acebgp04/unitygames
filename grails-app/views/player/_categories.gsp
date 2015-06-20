@@ -1,0 +1,1 @@
+<g:select name="sports" from="${categories}"  optionKey="id" value="${playerInstance?.sports*.id}" />
