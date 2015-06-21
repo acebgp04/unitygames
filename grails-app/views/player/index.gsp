@@ -44,6 +44,8 @@
 <g:hiddenField name="player.id"></g:hiddenField><br />
 <div class="form-group fieldcontain text-center">
 	<input name="query" type="text" id="comauto" class="form-control nav-search" placeholder="${message(code: 'search.navbar.placeholder', default: 'Search ...')}" value="${query}">
+	<a>Total Players Count: ${org.unity.Player.count}</a><br />
+	<a>Total Unique Players Count: ${org.unity.Player.executeQuery("select distinct p.fullName from Player p").size()}</a>
 </div>
 <section id="list-player" class="first">
 	<table class="table table-bordered margin-top-medium">
