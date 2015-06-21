@@ -2,9 +2,11 @@ package unitygamesv2
 
 import grails.converters.JSON
 import grails.transaction.Transactional
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 import org.unity.Category
 import org.unity.Player
 import org.unity.Sport
+import org.unity.Team
 
 import static org.springframework.http.HttpStatus.*
 
@@ -57,11 +59,11 @@ class PlayerController {
         }
 
         def file = params.pictureFile
-        if(file.size != 0) {
-            def userDir = new File("c:\\", "/payload/${playerInstance?.team?.name}")
+        if(file?.size != 0 && file != null) {
+            def userDir = new File(!System.properties['os.name'].toLowerCase().contains('windows') ? "/Users/ace/Documents" : "C:\\", "/payload/${playerInstance?.team?.name}")
             userDir.mkdirs()
             def ext = file?.originalFilename?.toString()?.lastIndexOf('.')
-            File fileNew =  new File( userDir, "${playerInstance?.fullName} ${playerInstance}${ext}")
+            File fileNew =  new File( userDir, "${playerInstance?.fullName}${ext}")
             file?.transferTo(fileNew)
             playerInstance.picture = fileNew.getAbsolutePath()
         }
@@ -92,15 +94,6 @@ class PlayerController {
             return
         }
 
-        def file = request.getFile('pictureFile')
-        if(file.size != 0) {
-            def userDir = new File("/Users/ace/Documents", "/payload/${playerInstance?.team?.name}")
-            userDir.mkdirs()
-            def ext = file?.originalFilename?.toString()?.substring(file?.originalFilename?.toString()?.lastIndexOf('.'))
-            File fileNew =  new File( userDir, "${playerInstance?.firstName} ${playerInstance?.middleName} ${playerInstance?.lastName} ${playerInstance?.birthDate?.getYear()}${ext}")
-            file?.transferTo(fileNew)
-            playerInstance.picture = fileNew.getAbsolutePath()
-        }
         playerInstance.save flush:true
 
         request.withFormat {
@@ -111,7 +104,34 @@ class PlayerController {
             '*'{ respond playerInstance, [status: OK] }
         }
     }
+    @Transactional
+    def upload() {
+        println 'test'
+        def fileName
+        def inputStream
+        if (params.qqfile instanceof CommonsMultipartFile) {
+            fileName = params.qqfile?.originalFilename
+            inputStream = params.qqfile.getInputStream()
+        } else {
+            fileName = params.qqfile
+            inputStream = request.getInputStream()
+        }
+        //To avoid problems with spaces
+        fileName = fileName.toString()
+        def ext = fileName.substring(fileName?.lastIndexOf('.'), fileName.length())
+        Player player = Player.get(params.player)
+        Team team = player.getTeam()
+        def userDir = new File(!System.properties['os.name'].toLowerCase().contains('windows') ? "/Users/ace/Documents" : "C:\\", "/payload/${team?.name}")
+        userDir.mkdirs()
+        File storedFile = new File(userDir, player?.fullName+ext)
 
+        player?.setPicture(storedFile?.getAbsolutePath())
+        player.save(flush: true)
+
+        storedFile.append(inputStream)
+        def result = [fileName] as JSON
+        redirect action: show(player)
+    }
     @Transactional
     def delete(Player playerInstance) {
 

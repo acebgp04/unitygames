@@ -70,6 +70,7 @@ grails.project.dependency.resolution = {
         compile ":spring-security-core:1.2.7.3"  // <-- Added
         compile ":joda-time:1.5"
         compile ":excel-import:1.0.0"
+        compile ":ajax-uploader:1.1"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0.1"
         //runtime ":cached-resources:1.1"

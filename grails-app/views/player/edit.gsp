@@ -6,6 +6,7 @@
 	<meta name="layout" content="kickstart" />
 	<g:set var="entityName" value="${message(code: 'player.label', default: 'Player')}" />
 	<title><g:message code="default.edit.label" args="[entityName]" /></title>
+	<r:require module="fileuploader" />
 </head>
 
 <body>
@@ -18,7 +19,7 @@
 		</div>
 		</g:hasErrors>
 
-		<g:uploadForm method="post" class="form-horizontal" role="form" >
+		<g:form method="post" class="form-horizontal" name="update" action="update">
 			<g:hiddenField name="id" value="${playerInstance?.id}" />
 			<g:hiddenField name="version" value="${playerInstance?.version}" />
 			<g:hiddenField name="_method" value="PUT" />
@@ -26,10 +27,10 @@
 			<g:render template="form"/>
 			
 			<div class="form-actions margin-top-medium">
-				<g:actionSubmit class="btn btn-primary" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
+				<g:actionSubmit action="update" class="btn btn-primary" value="${message(code: 'default.button.update.label', default: 'Update')}" />
 	            <button class="btn" type="reset"><g:message code="default.button.reset.label" default="Reset" /></button>
 			</div>
-		</g:uploadForm>
+		</g:form>
 
 	</section>
 

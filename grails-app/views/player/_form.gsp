@@ -101,7 +101,13 @@
 			<div class="${hasErrors(bean: playerInstance, field: 'picture', 'error')} ">
 				<label for="picture" class="control-label"><g:message code="player.picture.label" default="Picture" /></label>
 				<div>
-					<input id="pictureFile" type="file" name="pictureFile" value="${playerInstance?.picture}"/>
+
+					<g:if test="${playerInstance != null}">
+						<uploader:uploader id="${playerInstance?.id}" params="[player: playerInstance?.id]" multiple="false" url="${[controller:'player', action:'upload']}" />
+					</g:if>
+					<g:if test="${playerInstance == null}">
+						<input id="pictureFile" type="file" name="pictureFile" value="${playerInstance?.picture}"/>
+					</g:if>
 					<span class="help-inline">${hasErrors(bean: playerInstance, field: 'picture', 'error')}</span>
 				</div>
 			</div>
