@@ -22,7 +22,7 @@ class PlayerService {
         clist.each { Player player ->
             def companyMap = [:] // add to map. jQuery autocomplete expects the JSON object to be with id/label/value.
             companyMap.put("id", player.id)
-            companyMap.put("label", player.fullName)
+            companyMap.put("label", player.fullName + ' - ' + player?.getCategory())
             companyMap.put("value", player.fullName)
             companyMap.put("nasSymbol", player.fullName) // will use this to pre-populate the Emp Id
             companySelectList.add(companyMap) // add to the arraylist

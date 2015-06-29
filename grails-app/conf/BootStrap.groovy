@@ -14,7 +14,7 @@ class BootStrap {
 
         org.unity.security.UserRole.create testUser, adminRole, true
 
-        String path = !System.properties['os.name'].toLowerCase().contains('windows') ? "/Users/ace/Downloads/MASTER FILE (1).xls" : "C:\\MASTER FILE (1).xls"
+        String path = !System.properties['os.name'].toLowerCase().contains('windows') ? "/Users/ace/Documents/Master File.xlsx" : "C:\\MASTER FILE (1).xls"
         Import importer = new Import(path)
         def booksMapList = importer.getBooks();
         booksMapList.each { Map playerParams ->
