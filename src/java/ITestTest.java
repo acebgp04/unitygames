@@ -1,6 +1,7 @@
 import com.lowagie.text.*;
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.*;
+import org.unity.Player;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,10 +14,11 @@ import java.net.MalformedURLException;
 /**
  * Created by ace on 6/14/15.
  */
-class ITextTest {
+class ITestTest {
     public  static  void main(String[] args) throws DocumentException, MalformedURLException, IOException {
-        new ITextTest().manipulatePdf("/Users/ace/Desktop/Athlete Final.pdf", "TestForm.pdf");
+        new ITestTest().manipulatePdf("/Users/ace/Desktop/Athlete Final.pdf", "TestForm.pdf");
     }
+
 
     public void manipulatePdf(String src, String dest) throws IOException, DocumentException {
         PdfReader reader = new PdfReader(src);
@@ -54,7 +56,7 @@ class ITextTest {
         flagHolder.setProportionalIcon(true);
 
         form.setField("fullName", "Delos Santos Juan Manuel A.");
-        Image img = Image.getInstance("/Users/ace/Downloads/Mancolintas Benjie (Coach).jpg");
+        Image img = Image.getInstance("/Users/ace/Downloads/unity-games davao del norte players 2015/Allan Calica - Volleyball.jpg");
         Image flagImg = Image.getInstance("/Users/ace/Desktop/korea.jpg");
         ad.setImage(img);
         flagHolder.setImage(Image.getInstance("/Users/ace/Desktop/korea.jpg"));
