@@ -13,15 +13,34 @@ import org.unity.Player
  * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
  */
 class IDController {
+
+    def root = "/Users/ace/Desktop/unity/pictures"
 	def index = {
 		def players = Player.findAllByPictureIsNotNull()
 		players.each { player ->
             new File("/Users/ace/Desktop", "/payload/${player.getTeam().name}").mkdir()
-            createID("/Users/ace/Desktop/Athlete Final.pdf", "/Users/ace/Desktop/payload/${player.getTeam().name}/${player.getFullName()}.pdf", player)
+            createID("/Users/ace/Desktop/unity/Athlete Final New.pdf", "/Users/ace/Desktop/payload/${player.getTeam().name}/${player.getFullName()}.pdf", player)
 		}
 		println players
 
 	}
+
+    def updatePictures = {
+		println Player.findAll().fullName
+        new File(root).eachDirRecurse { team ->
+            println(team.getName())
+            if(team.isDirectory()) {
+                new File(team.getAbsolutePath()).eachFile { file ->
+					String fileName = file.getName()
+					if(fileName.contains(',')) {
+						String playerName = fileName.substring(0, fileName.lastIndexOf('.'));
+						Player player = Player.findByLastNameIlikeAndFirstNameIlike("%${playerName.split(',')[0].trim()}%", "%${playerName.split(',')[1]}%");
+						println "\t"+playerName + " <> " + player?.fullName
+					}
+                }
+            }
+        }
+    }
 
 	def createID(String src, String dest, Player player) throws IOException {
 		PdfReader reader = new PdfReader(src);
@@ -31,20 +50,10 @@ class IDController {
 		AcroFields form = stamper.getAcroFields();
 		PushbuttonField ad = form.getNewPushbuttonFromField("picture");
 
-		PushbuttonField btnCountry = form.getNewPushbuttonFromField("country");
-		btnCountry.setText(getTeam(player.team.getName()));
-		btnCountry.setLayout(PushbuttonField.LAYOUT_LABEL_ONLY);
-		form.replacePushbuttonField("country", btnCountry.getField());
-		PushbuttonField btnRegion = form.getNewPushbuttonFromField("region");
-		btnRegion.setText(player.getDistrict());
-		btnRegion.setLayout(PushbuttonField.LAYOUT_LABEL_LEFT_ICON_RIGHT);
-		form.replacePushbuttonField("region", btnRegion.getField());
-
-
 		PushbuttonField btnSport = form.getNewPushbuttonFromField("sport");
 		btnSport.setLayout(PushbuttonField.LAYOUT_ICON_ONLY);
 		btnSport.setProportionalIcon(true);
-		btnSport.setImage(Image.getInstance("/Users/ace/Desktop/baseball.png"));
+		btnSport.setImage(Image.getInstance("/Users/ace/Desktop/sports/${getSportIcon(player.getSport().getName())}"));
 		form.replacePushbuttonField("sport",btnSport.getField());
 
 		PushbuttonField btnControlNo = form.getNewPushbuttonFromField("controlNo");
@@ -58,20 +67,86 @@ class IDController {
 		flagHolder.setLayout(PushbuttonField.LAYOUT_ICON_ONLY);
 		flagHolder.setProportionalIcon(true);
 
-		form.setField("fullName", player.getFullName());
+		form.setField("lastName", player.getLastName().toUpperCase());
+		form.setField("firstName", player.getFirstName());
+		form.setField("team", getTeam(player.getTeam().name));
+		form.setField("country", "PHILIPPINES");
 		Image img = Image.getInstance(player.getPicture());
-		Image flagImg = Image.getInstance("/Users/ace/Desktop/philippines.png");
 		ad.setImage(img);
-		flagHolder.setImage(Image.getInstance("/Users/ace/Desktop/philippines.png"));
 		form.replacePushbuttonField("picture", ad.getField());
-		flagImg.setAbsolutePosition(28,143);
-		flagImg.scaleAbsoluteHeight(40f);
-		flagImg.scaleAbsoluteWidth(63f);
+
+		Image flagImg = Image.getInstance("/Users/ace/Desktop/flags/${getFlag(player.getTeam().name)}");
+		flagImg.setAbsolutePosition(27,135);
+		flagImg.scaleAbsoluteHeight(50f);
+		flagImg.scaleAbsoluteWidth(73f);
 		contentByte.addImage(flagImg);
 		stamper.close();
 		reader.close();
 	}
 
+    def getSportIcon(String sport) {
+        String sportFilename = ""
+        if(sport?.contains("Badminton")) {
+            sportFilename = "Badminton.png"
+        } else if(sport?.contains("Baseball")) {
+            sportFilename = "Baseball.png"
+        } else if(sport?.contains("Track")) {
+			sportFilename = "Track & Field.png"
+		} else if(sport?.contains("Long Jump")) {
+			sportFilename = "Track & Field.png"
+		} else if(sport?.contains("Shot-Put")) {
+			sportFilename = "Track & Field.png"
+		} else if(sport?.contains("Basketball")) {
+			sportFilename = "Basketball.png"
+		} else if(sport?.contains("Volleyball")) {
+			sportFilename = "Volleyball.png"
+		} else if(sport?.contains("Football")) {
+			sportFilename = "Soccer.png"
+		} else if(sport?.contains("Table Tennis")) {
+			sportFilename = "Table Tennis.png"
+		} else if(sport?.contains("Lawn Tennis")) {
+			sportFilename = "Lawn Tennis.png"
+		} else if(sport?.contains("Swimming")) {
+			sportFilename = "Swimming.png"
+		} else if(sport?.contains("Chess")) {
+			sportFilename = "Chess.png"
+		} else if(sport?.contains("Bowling")) {
+			sportFilename = "Bowling.png"
+		} else {
+			sportFilename = "Karate.png"
+		}
+
+		return sportFilename
+    }
+
+	def getFlag(String team) {
+		String flag = ""
+		//MISING ASIA, Europe, Middle East
+		if(team.equalsIgnoreCase("MIN") || team.equalsIgnoreCase("VIS") || team.equalsIgnoreCase("SLZ") || team.equalsIgnoreCase("NLZ")) {
+			flag = "Philippines.jpg"
+		} else if(team.equalsIgnoreCase("USA")) {
+			flag = "USA.jpg"
+		} else if(team.equalsIgnoreCase("QTR")) {
+			flag = "Qatar.jpg"
+		} else if(team.equalsIgnoreCase("UAE")) {
+			flag = "United Arab Emirates.jpg"
+		} else if(team.equalsIgnoreCase("SKO")) {
+			flag = "Korea (South).jpg"
+		} else if(team.equalsIgnoreCase("AUS")) {
+			flag = "Australia.jpg"
+		} else if(team.equalsIgnoreCase("CHN")) {
+			flag = "China.jpg"
+		} else if(team.equalsIgnoreCase("CND")) {
+			flag = "Canada.jpg"
+		} else if(team.equalsIgnoreCase("UK")) {
+			flag = "United Kingdom.jpg"
+		} else if(team.equalsIgnoreCase("JPN")) {
+			flag = "Japan.jpg"
+		} else {
+			flag = "Philippines.jpg"
+		}
+		return flag
+	}
 	 def getTeam(String teamCode) {
 		String team = "";
 		if(teamCode.equalsIgnoreCase("AFR")) {

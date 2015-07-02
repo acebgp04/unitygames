@@ -3,6 +3,8 @@ package org.unity
 class Player {
 	String controlNo
 	String fullName
+	String firstName
+	String lastName
 	String gender
 	String emailAddress
 	Date birthDate
@@ -72,6 +74,8 @@ class Player {
 	static constraints = {
 		controlNo(nullable:false)
 		fullName(nullable: true)
+		firstName(nullable: true)
+		lastName(nullable: true)
 		gender(nullable: true)
 		emailAddress(nullable: true)
 		birthDate(nullable: true)

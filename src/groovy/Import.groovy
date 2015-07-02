@@ -30,6 +30,23 @@ class Import extends AbstractExcelImporter {
             ]
     ]
 
+    static Map CONFIG_PLAYERS_COLUMN_MAP = [
+            sheet:'Masterlists (2)',
+            startRow: 10,
+            columnMap:  [
+                    'A':'controlNo',
+                    'B':'sport',
+                    'C':'team',
+                    'D':'lastName',
+                    'E':'firstName',
+                    'F':'kapisanan',
+                    'G':'lokal',
+                    'H':'distrito',
+                    'I':'gender',
+                    'J':'remarks'
+            ]
+    ]
+
     //can also configure injection in resources.groovy
     def getExcelImportService() {
         ExcelImportService.getService()
@@ -40,7 +57,7 @@ class Import extends AbstractExcelImporter {
     }
 
     List<Map> getBooks() {
-        List bookList = excelImportService.columns(workbook, CONFIG_BOOK_COLUMN_MAP)
+        List bookList = excelImportService.columns(workbook, CONFIG_PLAYERS_COLUMN_MAP)
     }
 
 

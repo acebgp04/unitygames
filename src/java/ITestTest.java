@@ -16,7 +16,7 @@ import java.net.MalformedURLException;
  */
 class ITestTest {
     public  static  void main(String[] args) throws DocumentException, MalformedURLException, IOException {
-        new ITestTest().manipulatePdf("/Users/ace/Desktop/Athlete Final.pdf", "TestForm.pdf");
+        new ITestTest().manipulatePdf("/Users/ace/Desktop/unity/Athlete Final New.pdf", "/Users/ace/Desktop/unity/TestForm.pdf");
     }
 
 
@@ -28,20 +28,10 @@ class ITestTest {
         AcroFields form = stamper.getAcroFields();
         PushbuttonField ad = form.getNewPushbuttonFromField("picture");
 
-        PushbuttonField btnCountry = form.getNewPushbuttonFromField("country");
-        btnCountry.setText("South Korea");
-        btnCountry.setLayout(PushbuttonField.LAYOUT_LABEL_ONLY);
-        form.replacePushbuttonField("country", btnCountry.getField());
-        PushbuttonField btnRegion = form.getNewPushbuttonFromField("region");
-        btnRegion.setText("Asia");
-        btnRegion.setLayout(PushbuttonField.LAYOUT_LABEL_LEFT_ICON_RIGHT);
-        form.replacePushbuttonField("region", btnRegion.getField());
-
-
         PushbuttonField btnSport = form.getNewPushbuttonFromField("sport");
         btnSport.setLayout(PushbuttonField.LAYOUT_ICON_ONLY);
         btnSport.setProportionalIcon(true);
-        btnSport.setImage(Image.getInstance("/Users/ace/Desktop/basketball.png"));
+        btnSport.setImage(Image.getInstance("/Users/ace/Desktop//sports/Soccer.png"));
         form.replacePushbuttonField("sport",btnSport.getField());
 
         PushbuttonField btnControlNo = form.getNewPushbuttonFromField("controlNo");
@@ -55,15 +45,18 @@ class ITestTest {
         flagHolder.setLayout(PushbuttonField.LAYOUT_ICON_ONLY);
         flagHolder.setProportionalIcon(true);
 
-        form.setField("fullName", "Delos Santos Juan Manuel A.");
-        Image img = Image.getInstance("/Users/ace/Downloads/unity-games davao del norte players 2015/Allan Calica - Volleyball.jpg");
-        Image flagImg = Image.getInstance("/Users/ace/Desktop/korea.jpg");
+        form.setField("lastName", "DELOS SANTOS");
+        form.setField("firstName", "Juan Manuel A.");
+        form.setField("team", "Philippines");
+        form.setField("district", "Northern Luzon");
+        Image img = Image.getInstance("/Users/ace/Downloads/unity-games davao del norte players 2015/Allen Ruales - Chess.jpg");
+        Image flagImg = Image.getInstance("/Users/ace/Desktop/flags/Philippines.jpg");
         ad.setImage(img);
-        flagHolder.setImage(Image.getInstance("/Users/ace/Desktop/korea.jpg"));
+        flagHolder.setImage(Image.getInstance("/Users/ace/Desktop/flags/Philippines.jpg"));
         form.replacePushbuttonField("picture", ad.getField());
-        flagImg.setAbsolutePosition(28,143);
-        flagImg.scaleAbsoluteHeight(40f);
-        flagImg.scaleAbsoluteWidth(63f);
+        flagImg.setAbsolutePosition(27,135);
+        flagImg.scaleAbsoluteHeight(50f);
+        flagImg.scaleAbsoluteWidth(73f);
         contentByte.addImage(flagImg);
         stamper.close();
         reader.close();
