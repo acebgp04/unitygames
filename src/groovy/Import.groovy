@@ -31,19 +31,20 @@ class Import extends AbstractExcelImporter {
     ]
 
     static Map CONFIG_PLAYERS_COLUMN_MAP = [
-            sheet:'Masterlists (2)',
+            sheet:'Masterlists',
             startRow: 10,
             columnMap:  [
                     'A':'controlNo',
                     'B':'sport',
-                    'C':'team',
-                    'D':'lastName',
-                    'E':'firstName',
-                    'F':'kapisanan',
-                    'G':'lokal',
-                    'H':'distrito',
-                    'I':'gender',
-                    'J':'remarks'
+                    'C':'category',
+                    'D':'team',
+                    'E':'lastName',
+                    'F':'firstName',
+                    'G':'kapisanan',
+                    'H':'lokal',
+                    'I':'distrito',
+                    'J':'gender',
+                    'K':'remarks'
             ]
     ]
 

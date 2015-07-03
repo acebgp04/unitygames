@@ -14,35 +14,45 @@ import org.unity.Player
  */
 class IDController {
 
-    def root = "/Users/ace/Desktop/unity/pictures"
+    def root = "/Users/ace/Documents/Pictures/unitygames/players"
 	def index = {
 		def players = Player.findAllByPictureIsNotNull()
 		players.each { player ->
             new File("/Users/ace/Desktop", "/payload/${player.getTeam().name}").mkdir()
-            createID("/Users/ace/Desktop/unity/Athlete Final New.pdf", "/Users/ace/Desktop/payload/${player.getTeam().name}/${player.getFullName()}.pdf", player)
+			if(player.getTeam().name.equalsIgnoreCase('MIN') || player.getTeam().name.equalsIgnoreCase('VIS') || player.getTeam().name.equalsIgnoreCase('NLZ') || player.getTeam().name.equalsIgnoreCase('SLZ')) {
+				createID("/Users/ace/Desktop/unity/Athlete Final New.pdf", "/Users/ace/Desktop/payload/${player.getTeam().name}/${player.getFullName()}.pdf", player, null)
+			} else {
+				createID("/Users/ace/Desktop/unity/Athlete Final New Int.pdf", "/Users/ace/Desktop/payload/${player.getTeam().name}/${player.getFullName()}.pdf", player, null)
+			}
 		}
 		println players
 
 	}
 
     def updatePictures = {
-		println Player.findAll().fullName
         new File(root).eachDirRecurse { team ->
-            println(team.getName())
             if(team.isDirectory()) {
                 new File(team.getAbsolutePath()).eachFile { file ->
-					String fileName = file.getName()
-					if(fileName.contains(',')) {
-						String playerName = fileName.substring(0, fileName.lastIndexOf('.'));
-						Player player = Player.findByLastNameIlikeAndFirstNameIlike("%${playerName.split(',')[0].trim()}%", "%${playerName.split(',')[1]}%");
-						println "\t"+playerName + " <> " + player?.fullName
+					Player player = Player.findByControlNo(file.name.substring(0, file.name.lastIndexOf('.')))
+					if(player) {
+						new File("/Users/ace/Desktop", "/payload/${player.getTeam().name}").mkdir()
+						if(!new File("/Users/ace/Desktop/payload/${player.getTeam().name}/${player.getFullName()}.pdf").exists()) {
+							if(player.getTeam().name.equalsIgnoreCase('MIN') || player.getTeam().name.equalsIgnoreCase('VIS') || player.getTeam().name.equalsIgnoreCase('NLZ') || player.getTeam().name.equalsIgnoreCase('SLZ')) {
+								createID("/Users/ace/Desktop/unity/Athlete Final New.pdf", "/Users/ace/Desktop/payload/${player.getTeam().name}/${player.getFullName()}.pdf", player, file.getAbsolutePath())
+							} else {
+								new File("/Users/ace/Desktop", "/payload/${player.getTeam().name}/${new Date().getMonth()}-${new Date().getDay()}").mkdir()
+								createID("/Users/ace/Desktop/unity/Athlete Final New Int.pdf", "/Users/ace/Desktop/payload/${player.getTeam().name}/${player.getFullName()}.pdf", player, file.getAbsolutePath())
+								createID("/Users/ace/Desktop/unity/Athlete Final New Int.pdf", "/Users/ace/Desktop/payload/${player.getTeam().name}/${new Date().getMonth()}-${new Date().getDay()}/${player.getFullName()}.pdf", player, file.getAbsolutePath())
+
+							}
+						}
 					}
                 }
             }
         }
     }
 
-	def createID(String src, String dest, Player player) throws IOException {
+	def createID(String src, String dest, Player player, String picture) throws IOException {
 		PdfReader reader = new PdfReader(src);
 		PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(dest));
 		PdfContentByte contentByte = stamper.getOverContent(1);
@@ -70,8 +80,8 @@ class IDController {
 		form.setField("lastName", player.getLastName().toUpperCase());
 		form.setField("firstName", player.getFirstName());
 		form.setField("team", getTeam(player.getTeam().name));
-		form.setField("country", "PHILIPPINES");
-		Image img = Image.getInstance(player.getPicture());
+		//form.setField("country", "PHILIPPINES");
+		Image img = Image.getInstance(picture);
 		ad.setImage(img);
 		form.replacePushbuttonField("picture", ad.getField());
 

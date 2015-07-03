@@ -17,8 +17,8 @@ hibernate {
 environments {
     development {
         dataSource {
-             dbCreate = "update"
-            url = "jdbc:postgresql://localhost:5432/unity"
+             dbCreate = "create-drop"
+            url = "jdbc:postgresql://localhost:5432/unityV2"
         }
     }
     test {
